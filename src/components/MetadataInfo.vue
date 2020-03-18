@@ -221,6 +221,7 @@
                                 defaultQuality: 0,
                                 pic: this.fileURLs[0]
                             },
+                            preload: 'auto'
                         }
 
                         for (let i in res) {
