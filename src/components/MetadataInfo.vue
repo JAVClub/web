@@ -184,14 +184,17 @@
                         this.fileURLs[i] = url
                     }
 
+                    let retryTimes = {}
+
                     setTimeout(() => {
                         this.fileURLLoadStatus = true
 
                         const trackError = (img) => {
                             if (!img.addEventListener) return
                             img.addEventListener('error', (event) => {
-                                if (event.target.src.length > 300) img.removeEventListener('error', trackError)
-                                event.target.src = event.target.src + '?' + 'reload'
+                                if (retryTimes[event.target.src] || retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
+                                retryTimes[event.target.src] = retryTimes[event.target.src] || 0
+                                retryTimes[event.target.src] += 1
                             })
                         }
 
