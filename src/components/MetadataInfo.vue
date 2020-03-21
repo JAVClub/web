@@ -192,8 +192,8 @@
                         const trackError = (img) => {
                             if (!img.addEventListener) return
                             img.addEventListener('error', (event) => {
-                                if (retryTimes[event.target.src] || retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
-                                retryTimes[event.target.src] = retryTimes[event.target.src] || 0
+                                if (retryTimes[event.target.src] && retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
+                                retryTimes[event.target.src] = (Number.isInteger(retryTimes[event.target.src])) ? retryTimes[event.target.src] : 0
                                 retryTimes[event.target.src] += 1
                             })
                         }
@@ -204,7 +204,7 @@
                                 let img = imgs[i]
                                 trackError(img)
                             }
-                        }, 50)
+                        }, 120)
                     }, 200)
 
                     let videoIds = []
