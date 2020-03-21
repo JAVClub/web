@@ -7,12 +7,23 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueCookies from 'vue-cookies'
 import VueMeta from 'vue-meta'
+import config from './config'
+
+axios.defaults.withCredentials = true
 
 Vue.use(VueMeta)
 Vue.use(VueCookies)
 Vue.use(VueAxios, axios)
 Vue.use(VueRouter)
 Vue.use(Antd)
+
+Vue.mixin({
+    data: () => {
+        return {
+            apiHost: config.apiHost
+        }
+    }
+})
 
 Vue.config.productionTip = false
 

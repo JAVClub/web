@@ -93,13 +93,13 @@
                     case 'tag':
                     case 'star':
                     case 'series':
-                        apiUri = `/api/metadata/getListByMeta/${this.type}/${this.metaId}/${this.page}/${this.pageSize}`
+                        apiUri = `/metadata/getListByMeta/${this.type}/${this.metaId}/${this.page}/${this.pageSize}`
                         break
                     default:
-                        apiUri = `/api/metadata/getList/${this.page}/${this.pageSize}`
+                        apiUri = `/metadata/getList/${this.page}/${this.pageSize}`
                 }
 
-                this.axios.get(apiUri).then((res) => {
+                this.axios.get(this.apiHost + apiUri).then((res) => {
                     res = res.data
                     this.total = res.data.total
                     this.items = res.data.data

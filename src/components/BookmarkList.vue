@@ -46,7 +46,7 @@
 
         methods: {
             requestNew: function() {
-                this.axios.get('/api/bookmark/getList').then((res) => {
+                this.axios.get(this.apiHost + '/bookmark/getList').then((res) => {
                     res = res.data
                     this.items = res.data
                     document.getElementsByTagName('h1')[0].scrollIntoView()
@@ -58,7 +58,7 @@
                     this.$message.error('Name cant be empty!')
                     return
                 } else {
-                    this.axios.post(`/api/bookmark/createBookmark`, {
+                    this.axios.post(this.apiHost + `/bookmark/createBookmark`, {
                         name: name
                     }).then((res) => {
                         res = res.data
@@ -66,7 +66,7 @@
                         if (res.code === 0) {
                             this.$message.success('Created!')
                         } else {
-                            this.$message.error('Error!')
+                            this.$message.error(res.msg)
                         }
                     })
                 }
@@ -80,7 +80,7 @@
                     okType: 'danger',
                     cancelText: 'No',
                     onOk: () => {
-                        this.axios.post(`/api/bookmark/removeBookmark`, {
+                        this.axios.post(this.apiHost + `/bookmark/removeBookmark`, {
                             bookmarkId: bookmarkId
                         }).then((res) => {
                             res = res.data
@@ -88,7 +88,7 @@
                             if (res.code === 0) {
                                 this.$message.success('Removed!')
                             } else {
-                                this.$message.error('Error!')
+                                this.$message.error(res.msg)
                             }
                         })
                     },

@@ -43,7 +43,7 @@
 
         methods: {
             requestNew: function() {
-                this.axios.get(`/api/bookmark/getInfo/${this.bookmarkId}/${this.page}/${this.pageSize}`).then((res) => {
+                this.axios.get(this.apiHost + `/bookmark/getInfo/${this.bookmarkId}/${this.page}/${this.pageSize}`).then((res) => {
                     res = res.data
                     this.total = res.data.total
                     this.items = res.data.metadatas
@@ -67,7 +67,7 @@
                     okType: 'danger',
                     cancelText: 'No',
                     onOk: () => {
-                        this.axios.post(`/api/bookmark/removeMetadata/${this.bookmarkId}`, {
+                        this.axios.post(this.apiHost + `/bookmark/removeMetadata/${this.bookmarkId}`, {
                             metadataId: id
                         }).then((res) => {
                             res = res.data

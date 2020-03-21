@@ -39,7 +39,7 @@ export default {
                 return
             }
             
-            this.axios.post('/api/user/changeUsername', {
+            this.axios.post(this.apiHost + '/user/changeUsername', {
                 newUsername: this.newUsername
             }).then((res) => {
                 res = res.data
@@ -59,14 +59,14 @@ export default {
                 return
             }
 
-            this.axios.post('/api/user/changePassword', {
+            this.axios.post(this.apiHost + '/user/changePassword', {
                 newPassword: this.newPassword
             }).then((res) => {
                 res = res.data
 
                 if (res.code === 0) {
                     this.$message.success('Success')
-                    this.axios.get('/api/auth/logout')
+                    this.axios.get(this.apiHost + '/auth/logout')
                     window.location.reload()
                     return
                 }

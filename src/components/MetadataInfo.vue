@@ -106,7 +106,7 @@
 
             addToBookmark: function(check = false) {
                 if (!check) {
-                    this.axios.get(`/api/bookmark/getList`).then((res) => {
+                    this.axios.get(this.apiHost + `/bookmark/getList`).then((res) => {
                         res = res.data.data
                         this.bookmarks = res
                         this.addToBookmarkModal = true
@@ -119,7 +119,7 @@
                     return
                 }
 
-                this.axios.post(`/api/bookmark/addMetadata/${this.selectBookmark}`, {
+                this.axios.post(this.apiHost + `/bookmark/addMetadata/${this.selectBookmark}`, {
                     metadataId: this.$route.params.id
                 }).then((res) => {
                     res = res.data
@@ -136,7 +136,7 @@
         created: function() {
             document.title = 'Metadata Info | JAVClub'
 
-            this.axios.get(`/api/metadata/getInfo/${this.$route.params.id}`).then((res) => {
+            this.axios.get(this.apiHost + `/metadata/getInfo/${this.$route.params.id}`).then((res) => {
                 res = res.data.data
                 this.videoId = res.id
                 this.title = res.title
@@ -148,7 +148,7 @@
                 this.series = res.series
             })
 
-            this.axios.get(`/api/video/getList/${this.$route.params.id}`).then((res) => {
+            this.axios.get(this.apiHost + `/video/getList/${this.$route.params.id}`).then((res) => {
                 res = res.data.data
 
                 let processed = []
@@ -177,7 +177,7 @@
                     this.fileURLs[this.videos[0].storyboardFileIdSet[i]] = ''
                 }
 
-                this.axios.get(`/api/file/getURL/${fileIds.join(',')}`).then((res) => {
+                this.axios.get(this.apiHost + `/file/getURL/${fileIds.join(',')}`).then((res) => {
                     let result = res.data.data
                     for (let i in result) {
                         let url = result[i]
@@ -215,7 +215,7 @@
                         videoMap[video.videoFileId] = video
                     }
 
-                    this.axios.get(`/api/file/getURL/${videoIds.join(',')}`).then((res) => {
+                    this.axios.get(this.apiHost + `/file/getURL/${videoIds.join(',')}`).then((res) => {
                         res = res.data.data
 
                         this.playerOptions = {

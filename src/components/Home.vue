@@ -43,7 +43,7 @@ export default {
     },
 
     created: function() {
-        this.axios.get('/api/statistic/getData').then((res) => {
+        this.axios.get(this.apiHost + '/statistic/getData').then((res) => {
             res = res.data
             this.numbers = res.data
         })

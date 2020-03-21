@@ -81,14 +81,14 @@
 
         methods: {
             logout: function() {
-                this.axios.get('/api/auth/logout')
+                this.axios.get(this.apiHost + '/auth/logout')
                 this.isLogin = false
                 window.location.reload()
             }
         },
 
         created: function() {
-            this.axios.get('/api/auth/check').then((res) => {
+            this.axios.get(this.apiHost + '/auth/check').then((res) => {
                 res = res.data
 
                 this.isLogin = res.data.isLogin

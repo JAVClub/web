@@ -40,7 +40,7 @@
 
         methods: {
             requestNew: function() {
-                this.axios.get(`/api/metadata/getMetaList/series/${this.page}/${this.pageSize}`).then((res) => {
+                this.axios.get(this.apiHost + `/metadata/getMetaList/series/${this.page}/${this.pageSize}`).then((res) => {
                     res = res.data
                     this.total = res.data.total
                     this.items = res.data.data

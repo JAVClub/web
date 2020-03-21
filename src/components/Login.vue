@@ -22,8 +22,8 @@
         },
 
         methods: {
-            handleSubmit() {
-                this.axios.post('/api/auth/login', {
+            handleSubmit: function() {
+                this.axios.post(this.apiHost + '/auth/login', {
                     username: this.username,
                     password: this.password
                 }).then((res) => {
