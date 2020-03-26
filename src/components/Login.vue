@@ -5,7 +5,7 @@
         <div style="max-width: 350px; display: inline-block;">
             <a-input v-model="username" placeholder="Username" />
             <br /><br />
-            <a-input v-model="password" type="password" placeholder="Password" />
+            <a-input v-model="password" type="password" placeholder="Password" @keyup.enter="handleSubmit" />
             <br /><br />
             <a-button v-on:click="handleSubmit" type="primary">Login</a-button>
         </div>
