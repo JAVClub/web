@@ -1,6 +1,9 @@
 <template>
-    <a-table :columns="columns" :rowKey="'id'" :dataSource="table">
+    <a-table :columns="columns" :rowKey="'id'" :dataSource="data">
         <a slot="name" slot-scope="text">{{text}}</a>
+        <span slot="url" slot-scope="_url">
+            <a :href="_url" target="_blank">Link</a>
+        </span>
     </a-table>
 </template>
 <script>
@@ -36,11 +39,24 @@
             ellipsis: true
         },
         {
+            title: 'Version',
+            dataIndex: 'version',
+            key: 'version',
+            ellipsis: true
+        },
+        {
             title: 'Update Time',
             dataIndex: 'updateTime',
             key: 'updateTime',
             ellipsis: true
         },
+        {
+            title: 'Download',
+            dataIndex: 'url',
+            key: 'url',
+            ellipsis: true,
+            scopedSlots: { customRender: 'url' }
+        }
     ];
 
     export default {
@@ -50,14 +66,6 @@
             return {
                 columns
             };
-        },
-
-        computed: {
-            table: function() {
-                let data = this.data
-
-                return data
-            }
         }
     };
 </script>

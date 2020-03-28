@@ -42,7 +42,7 @@
 
         <a-divider />
 
-        <div style="overflow-x: scroll">
+        <div v-if="playerShow" style="overflow-x: scroll">
             <MetadataInfoVideoList :text="'Video sources'" :data="videos"></MetadataInfoVideoList>
         </div>
 
@@ -55,7 +55,7 @@
             :height="150"
             :width="250"
             >
-                <img style="width: 240px" :src="item" alt="screenshoot">
+                <img style="max-height: 140px; max-width: 240px;" :src="item" alt="screenshoot">
             </waterfall-slot>
         </waterfall>
     </div>
@@ -89,6 +89,7 @@
                 stars: [],
                 series: '',
                 videos: [],
+                version: 0,
                 fileURLs: {},
                 fileURLLoadStatus: false,
                 playerShow: false,
@@ -130,13 +131,42 @@
                     }
                     this.addToBookmarkModal = false
                 })
+            },
+
+            renderStoryboard: function(data) {
+                let result = data
+                for (let i in result) {
+                    this.fileURLs[i] = result[i]
+                }
+
+                this.fileURLLoadStatus = true
+
+                let retryTimes = {}
+
+                setTimeout(() => {
+                    const trackError = (img) => {
+                        if (!img.addEventListener) return
+                        img.addEventListener('error', (event) => {
+                            if (retryTimes[event.target.src] && retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
+                            retryTimes[event.tarsget.src] = (Number.isInteger(retryTimes[event.target.src])) ? retryTimes[event.target.src] : 0
+                            retryTimes[event.target.src] += 1
+                            event.target.src = event.target.src + '?retry'
+                        })
+                    }
+
+                    let imgs = document.getElementsByTagName('img')
+                    for (let i in imgs) {
+                        let img = imgs[i]
+                        trackError(img)
+                    }
+                }, 20)
             }
         },
 
-        created: function() {
+        created: async function() {
             document.title = 'Metadata Info | JAVClub'
 
-            this.axios.get(this.apiHost + `/metadata/getInfo/${this.$route.params.id}`).then((res) => {
+            await this.axios.get(this.apiHost + `/metadata/getInfo/${this.$route.params.id}`).then((res) => {
                 res = res.data.data
                 this.videoId = res.id
                 this.title = res.title
@@ -146,6 +176,11 @@
                 this.tags = res.tags
                 this.stars = res.stars
                 this.series = res.series
+                this.version = res.version
+
+                if (this.version === 2) {
+                    this.renderStoryboard(res.screenshotFilesURL)
+                }
             })
 
             this.axios.get(this.apiHost + `/video/getList/${this.$route.params.id}`).then((res) => {
@@ -161,6 +196,7 @@
                         videoFileId: item.videoFileId,
                         episode: item.videoMetadata.episode,
                         storyboardFileIdSet: item.storyboardFileIdSet,
+                        version: item.version,
                         bitRate: item.videoMetadata.metadata.video.bitRate,
                         duration: item.videoMetadata.metadata.video.duration,
                         updateTime: (new Date(parseInt(item.updateTime))).toUTCString()
@@ -171,76 +207,58 @@
 
                 this.videos = processed
 
-                let fileIds = []
-                for (let i in this.videos[0].storyboardFileIdSet) {
-                    fileIds.push(this.videos[0].storyboardFileIdSet[i])
-                    this.fileURLs[this.videos[0].storyboardFileIdSet[i]] = ''
+                if (this.version === 1) {
+                    let fileIds = []
+                    for (const k in this.videos) {
+                        const item = this.videos[k]
+
+                        if (!item.storyboardFileIdSet) continue
+                        for (const i in item.storyboardFileIdSet) {
+                            fileIds.push(item.storyboardFileIdSet[i])
+                            this.fileURLs[item.storyboardFileIdSet[i]] = ''
+                        }
+
+                        break
+                    }
+
+                    this.axios.get(this.apiHost + `/file/getURL/${fileIds.join(',')}`).then((res) => {
+                        this.renderStoryboard(res.data.data)
+                    })
                 }
 
-                this.axios.get(this.apiHost + `/file/getURL/${fileIds.join(',')}`).then((res) => {
-                    let result = res.data.data
-                    for (let i in result) {
-                        let url = result[i]
-                        this.fileURLs[i] = url
+                let videoIds = []
+                let videoMap = {}
+                for (let i in this.videos) {
+                    let video = this.videos[i]
+                    videoIds.push(video.videoFileId)
+                    videoMap[video.videoFileId] = video
+                }
+
+                this.axios.get(this.apiHost + `/file/getURL/${videoIds.join(',')}`).then((res) => {
+                    res = res.data.data
+
+                    this.playerOptions = {
+                        video: {
+                            quality: [],
+                            defaultQuality: 0
+                        },
+                        preload: 'auto'
                     }
 
-                    let retryTimes = {}
-
-                    setTimeout(() => {
-                        this.fileURLLoadStatus = true
-
-                        const trackError = (img) => {
-                            if (!img.addEventListener) return
-                            img.addEventListener('error', (event) => {
-                                if (retryTimes[event.target.src] && retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
-                                retryTimes[event.target.src] = (Number.isInteger(retryTimes[event.target.src])) ? retryTimes[event.target.src] : 0
-                                retryTimes[event.target.src] += 1
-                            })
-                        }
-
-                        setTimeout(() => {
-                            let imgs = document.getElementsByTagName('img')
-                            for (let i in imgs) {
-                                let img = imgs[i]
-                                trackError(img)
-                            }
-                        }, 120)
-                    }, 200)
-
-                    let videoIds = []
-                    let videoMap = {}
-                    for (let i in this.videos) {
-                        let video = this.videos[i]
-                        videoIds.push(video.videoFileId)
-                        videoMap[video.videoFileId] = video
+                    for (let i in res) {
+                        let url = res[i]
+                        let video = videoMap[i]
+                        video.url = url
+                        this.playerOptions.video.quality.push({
+                            name: `Ep${video.episode} #${video.id}`,
+                            url: url,
+                            type: 'auto'
+                        })
                     }
 
-                    this.axios.get(this.apiHost + `/file/getURL/${videoIds.join(',')}`).then((res) => {
-                        res = res.data.data
+                    this.playerOptions.video.quality = _.orderBy(this.playerOptions.video.quality, ['name'], ['asc'])
 
-                        this.playerOptions = {
-                            video: {
-                                quality: [],
-                                defaultQuality: 0,
-                                pic: this.fileURLs[0]
-                            },
-                            preload: 'auto'
-                        }
-
-                        for (let i in res) {
-                            let url = res[i]
-                            let video = videoMap[i]
-                            this.playerOptions.video.quality.push({
-                                name: `Ep${video.episode} #${video.id}`,
-                                url: url,
-                                type: 'auto'
-                            })
-                        }
-
-                        this.playerOptions.video.quality = _.orderBy(this.playerOptions.video.quality, ['name'], ['asc'])
-
-                        this.playerShow = true
-                    })
+                    this.playerShow = true
                 })
             })
         }
