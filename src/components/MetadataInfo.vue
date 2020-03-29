@@ -90,7 +90,7 @@
                 series: '',
                 videos: [],
                 version: 0,
-                fileURLs: {},
+                fileURLs: [],
                 fileURLLoadStatus: false,
                 playerShow: false,
                 playerOptions: {},
@@ -136,7 +136,7 @@
             renderStoryboard: function(data) {
                 let result = data
                 for (let i in result) {
-                    this.fileURLs[i] = result[i]
+                    this.fileURLs.push(result[i])
                 }
 
                 this.fileURLLoadStatus = true
@@ -215,14 +215,14 @@
                         if (item.version !== 1) continue
                         for (const i in item.storyboardFileIdSet) {
                             fileIds.push(item.storyboardFileIdSet[i])
-                            this.fileURLs[item.storyboardFileIdSet[i]] = ''
                         }
 
                         break
                     }
 
                     this.axios.get(this.apiHost + `/file/getURL/${fileIds.join(',')}`).then((res) => {
-                        this.renderStoryboard(res.data.data)
+                        const arr = Array.from(Object.values(res.data.data))
+                        this.renderStoryboard(arr.reverse())
                     })
                 }
 
