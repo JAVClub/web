@@ -214,7 +214,7 @@
 
                         if (item.version !== 1) continue
                         for (const i in item.storyboardFileIdSet) {
-                            fileIds.unshift(item.storyboardFileIdSet[i])
+                            fileIds.push(item.storyboardFileIdSet[i])
                             this.fileURLs[item.storyboardFileIdSet[i]] = ''
                         }
 
