@@ -212,7 +212,7 @@
                     for (const k in this.videos) {
                         const item = this.videos[k]
 
-                        if (!item.storyboardFileIdSet) continue
+                        if (item.version !== 1) continue
                         for (const i in item.storyboardFileIdSet) {
                             fileIds.push(item.storyboardFileIdSet[i])
                             this.fileURLs[item.storyboardFileIdSet[i]] = ''
