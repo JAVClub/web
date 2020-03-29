@@ -148,7 +148,7 @@
                         if (!img.addEventListener) return
                         img.addEventListener('error', (event) => {
                             if (retryTimes[event.target.src] && retryTimes[event.target.src] > 10) img.removeEventListener('error', trackError)
-                            retryTimes[event.tarsget.src] = (Number.isInteger(retryTimes[event.target.src])) ? retryTimes[event.target.src] : 0
+                            retryTimes[event.target.src] = (Number.isInteger(retryTimes[event.target.src])) ? retryTimes[event.target.src] : 0
                             retryTimes[event.target.src] += 1
                             event.target.src = event.target.src + '?retry'
                         })
@@ -214,7 +214,7 @@
 
                         if (item.version !== 1) continue
                         for (const i in item.storyboardFileIdSet) {
-                            fileIds.push(item.storyboardFileIdSet[i])
+                            fileIds.unshift(item.storyboardFileIdSet[i])
                             this.fileURLs[item.storyboardFileIdSet[i]] = ''
                         }
 
