@@ -5,6 +5,9 @@
             <p> {{pageStatus}}</p>
         </div>
         <div>
+            <a-input-search placeholder="Search title/JAVID(split by space)" style="width: 300px" :defaultValue="searchStr" @search="onSearch" />
+        </div>
+        <div>
             <div v-if="items.length === 0" class="loading">
                 <a-spin />
             </div>
@@ -57,7 +60,20 @@
 
         computed: {
             pageStatus: function() {
-                return ` ${(this.type !== 'default') ? `Param: ${this.type[0].toUpperCase() + this.type.substring(1)}:${this.metaName} ` : ''}Page ${this.page}`
+                let status = ' '
+                if (this.type === 'search') {
+                    status += `Search: ${this.metaId}`
+                } else if (this.type !== 'default') {
+                    status += `Param: ${this.type[0].toUpperCase() + this.type.substring(1)}:${this.metaName}`
+                }
+
+                return status + ` Page ${this.page}`
+            },
+
+            searchStr: function() {
+                if (this.type !== 'search') return ''
+                    
+                return this.metaId
             }
         },
 
@@ -69,10 +85,32 @@
                 this.requestNew()
             },
 
+            onSearch: function(str) {
+                this.$router.push(`/metadata/list/1/search/${str}`)
+            },
+
+            getApiUrl: function() {
+                let apiUri = ''
+                switch (this.type) {
+                    case 'tag':
+                    case 'star':
+                    case 'series':
+                        apiUri = `/metadata/getListByMeta/${this.type}/${this.metaId}/${this.page}/${this.pageSize}`
+                        break
+                    case 'search':
+                        apiUri = `/metadata/search/${this.metaId}/${this.page}/${this.pageSize}`
+                        break
+                    default:
+                        apiUri = `/metadata/getList/${this.page}/${this.pageSize}`
+                }
+
+                return apiUri
+            },
+
             requestNew: function() {
                 if (this.routerParams.type) {
                     this.type = this.routerParams.type
-                    this.metaId = parseInt(this.routerParams.metaId)
+                    this.metaId = this.routerParams.metaId
                     this.metaName = this.routerParams.type
                 } else {
                     this.type = 'default'
@@ -88,16 +126,7 @@
                 
 
                 this.items = []
-                let apiUri = ''
-                switch (this.type) {
-                    case 'tag':
-                    case 'star':
-                    case 'series':
-                        apiUri = `/metadata/getListByMeta/${this.type}/${this.metaId}/${this.page}/${this.pageSize}`
-                        break
-                    default:
-                        apiUri = `/metadata/getList/${this.page}/${this.pageSize}`
-                }
+                const apiUri = this.getApiUrl()
 
                 this.axios.get(this.apiHost + apiUri).then((res) => {
                     res = res.data
