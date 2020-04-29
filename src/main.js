@@ -11,11 +11,22 @@ import config from './config'
 import * as Sentry from '@sentry/browser'
 import { Vue as VueIntegration } from '@sentry/integrations'
 
+import Home from './components/Home'
+import MetadataList from './components/MetadataList'
+import MetadataInfo from './components/MetadataInfo'
+import BookmarkList from './components/BookmarkList'
+import BookmarkInfo from './components/BookmarkInfo'
+import TagList from './components/TagList'
+import StarList from './components/StarList'
+import SeriesList from './components/SeriesList'
+import Profile from './components/Profile'
+import Login from './components/Login'
+
 axios.defaults.withCredentials = true
 
 Sentry.init({
     dsn: 'https://a070dfc175f04ef1943a02ae309c4ac2@o230009.ingest.sentry.io/5217416',
-    integrations: [new VueIntegration({Vue, attachProps: true})]
+    integrations: [new VueIntegration({ Vue, attachProps: true })]
 })
 Vue.use(VueMeta)
 Vue.use(VueCookies)
@@ -33,22 +44,11 @@ Vue.mixin({
 
 Vue.config.productionTip = false
 
-import Home from './components/Home'
-import MetadataList from './components/MetadataList'
-import MetadataInfo from './components/MetadataInfo'
-import BookmarkList from './components/BookmarkList'
-import BookmarkInfo from './components/BookmarkInfo'
-import TagList from './components/TagList'
-import StarList from './components/StarList'
-import SeriesList from './components/SeriesList'
-import Profile from './components/Profile'
-import Login from './components/Login'
-
 const routes = [
     {
         name: 'homepage',
         path: '/home',
-        component: Home,
+        component: Home
     },
     {
         name: 'metadataList',

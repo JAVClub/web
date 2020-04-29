@@ -55,9 +55,10 @@
             :height="150"
             :width="250"
             >
-                <img style="max-height: 140px; max-width: 240px;" :src="item" alt="screenshoot">
+                <img style="max-height: 140px; max-width: 240px;" :src="item" @click="showPic(fileId)" alt="screenshoot">
             </waterfall-slot>
         </waterfall>
+        <previewer v-if="fileURLLoadStatus" ref="previewer" :list="screenshootList"></previewer>
     </div>
 </template>
 
@@ -69,6 +70,7 @@
     import VueDPlayer from 'vue-dplayer'
     import 'vue-dplayer/dist/vue-dplayer.css'
     import _ from 'loadsh'
+    import vuePicturePreview from 'vue-picture-preview'
 
     export default {
         components: {
@@ -76,7 +78,22 @@
             MetadataInfoVideoInfo,
             Waterfall,
             WaterfallSlot,
-            'd-player': VueDPlayer
+            'd-player': VueDPlayer,
+            Previewer: vuePicturePreview
+        },
+
+        computed: {
+            screenshootList: function() {
+                const list = []
+                for (const i in this.fileURLs) {
+                    const url = this.fileURLs[i]
+                    list.push({
+                        src: url
+                    })
+                }
+
+                return list
+            }
         },
 
         data: function() {
@@ -101,6 +118,10 @@
         },
 
         methods: {
+            showPic: function(index) {
+                this.$refs.previewer.show(index)
+            },
+
             bookmarkSelected: function(id) {
                 this.selectBookmark = parseInt(id)
             },
