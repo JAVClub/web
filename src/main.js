@@ -8,9 +8,15 @@ import VueAxios from 'vue-axios'
 import VueCookies from 'vue-cookies'
 import VueMeta from 'vue-meta'
 import config from './config'
+import * as Sentry from '@sentry/browser'
+import { Vue as VueIntegration } from '@sentry/integrations'
 
 axios.defaults.withCredentials = true
 
+Sentry.init({
+    dsn: 'https://a070dfc175f04ef1943a02ae309c4ac2@o230009.ingest.sentry.io/5217416',
+    integrations: [new VueIntegration({Vue, attachProps: true})]
+})
 Vue.use(VueMeta)
 Vue.use(VueCookies)
 Vue.use(VueAxios, axios)
