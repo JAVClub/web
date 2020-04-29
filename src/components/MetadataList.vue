@@ -7,6 +7,7 @@
         <div>
             <a-input-search placeholder="Search title/JAVID(split by space)" style="width: 300px" :defaultValue="searchStr" @search="onSearch" />
         </div>
+        <br>
         <div>
             <div v-if="items.length === 0" class="loading">
                 <a-spin />
