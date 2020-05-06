@@ -31,7 +31,8 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.1.2",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "@babel/compat-data": "7.9.0"
   },
   "eslintConfig": {
     "root": true,
