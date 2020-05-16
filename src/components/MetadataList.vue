@@ -7,16 +7,16 @@
         <div>
             <a-input-search placeholder="Search title/JAVID(split by space)" style="width: 300px" :defaultValue="searchStr" @search="onSearch" />
         </div>
-        <br>
         <div>
             <div v-if="items.length === 0" class="loading">
                 <a-spin />
             </div>
+            <br v-else>
             <waterfall :line-gap="370" :align="'center'" :watch="items">
                 <waterfall-slot
                     v-for="item in items"
                     :key="item.id"
-                    :height="450"
+                    :height="435"
                     :width="370"
                 >
                     <MetadataListVideoCard 
@@ -47,7 +47,7 @@
             return {
                 items: [],
                 page: 1,
-                pageSize: 20,
+                pageSize: 21,
                 total: 50,
                 type: 'default',
                 metaId: null,

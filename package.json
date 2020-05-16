@@ -10,7 +10,7 @@
   "dependencies": {
     "@sentry/browser": "^5.15.5",
     "@sentry/integrations": "^5.15.5",
-    "ant-design-vue": "^1.4.12",
+    "ant-design-vue": "^1.6.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "dplayer": "^1.25.0",

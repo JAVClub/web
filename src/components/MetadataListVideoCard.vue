@@ -1,10 +1,11 @@
 <template>
     <a-card hoverable style="width: 350px">
         <img
-        alt="cover"
-        :src="JAVinfo.posterFileURL"
-        slot="cover"
-        />
+            alt="cover"
+            class="cover"
+            :src="JAVinfo.posterFileURL"
+            slot="cover"
+            />
         <a :href="`/#/metadata/view/${JAVinfo.id}`"><a-card-meta :title="`[${JAVinfo.JAVID}]` + JAVinfo.title" /></a>
         <br />
         <div class="tags">
@@ -60,5 +61,10 @@ export default {
 <style scoped>
     .tags {
         display: inline;
+    }
+
+    .cover {
+        max-width: 100%;
+        max-height: 234px;
     }
 </style>

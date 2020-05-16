@@ -6,7 +6,7 @@
             <waterfall-slot
             v-for="item in items"
             :key="item.id"
-            :height="480"
+            :height="465"
             :width="370"
             >
             <BookmarkInfoVideoCard :data="item" v-on:metadataDelete="deleteMetadata" />
@@ -34,8 +34,8 @@
             return {
                 items: [],
                 page: 1,
-                pageSize: 20,
-                total: 100,
+                pageSize: 21,
+                total: 50,
                 bookmarkId: 0,
                 name: ''
             }

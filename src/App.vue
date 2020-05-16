@@ -13,31 +13,43 @@
                 <span>Homepage</span>
                 <router-link :to="{ name: 'homepage' }" />
             </a-menu-item>
-            <a-menu-item key="metadataList">
-                <a-icon type="bars" />
-                <span>Metadatas</span>
-                <router-link :to="{ name: 'metadataList' }" />
-            </a-menu-item>
+
+            <a-sub-menu>
+                <span slot="title" class="submenu-title-wrapper">
+                    <a-icon type="switcher" />Metas
+                </span>
+
+                <a-menu-item key="metadataList">
+                    <a-icon type="menu" />
+                    <span>Metadatas</span>
+                    <router-link :to="{ name: 'metadataList' }" />
+                </a-menu-item>
+
+                <a-menu-item key="tagList">
+                    <a-icon type="tags" />
+                    <span>Tags</span>
+                    <router-link :to="{ name: 'tagList' }" />
+                </a-menu-item>
+
+                <a-menu-item key="starList">
+                    <a-icon type="team" />
+                    <span>Stars</span>
+                    <router-link :to="{ name: 'starList' }" />
+                </a-menu-item>
+
+                <a-menu-item key="seriesList">
+                    <a-icon type="number" />
+                    <span>Series</span>
+                    <router-link :to="{ name: 'seriesList' }" />
+                </a-menu-item>
+            </a-sub-menu>
+
             <a-menu-item key="bookmarkList">
                 <a-icon type="folder" />
                 <span>Bookmarks</span>
                 <router-link :to="{ name: 'bookmarkList' }" />
             </a-menu-item>
-            <a-menu-item key="tagList">
-                <a-icon type="tags" />
-                <span>Tags</span>
-                <router-link :to="{ name: 'tagList' }" />
-            </a-menu-item>
-            <a-menu-item key="starList">
-                <a-icon type="star" />
-                <span>Stars</span>
-                <router-link :to="{ name: 'starList' }" />
-            </a-menu-item>
-            <a-menu-item key="seriesList">
-                <a-icon type="number" />
-                <span>Series</span>
-                <router-link :to="{ name: 'seriesList' }" />
-            </a-menu-item>
+            
             <a-menu-item key="profile">
                 <a-icon type="user" />
                 <span>Profile</span>

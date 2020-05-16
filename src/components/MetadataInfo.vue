@@ -1,6 +1,10 @@
 <template>
     <div>
-        <h1>{{title}}</h1>
+        <a-page-header
+        :title="title"
+        :sub-title="JAVID"
+        @back="() => $router.go(-1)"
+        />
         
         <a-row>
             <a-col :span="13">
@@ -25,7 +29,7 @@
 
         <a-modal title="Add to bookmark" v-model="addToBookmarkModal" @ok="addToBookmark(true)">
             <div v-if="bookmarks.length === 0">
-                <a-alert type="error" message="You don't have a folder yet, please create one first" banner />
+                <a-alert type="error" message="You don't have a folder yet, please create one first." banner />
                 <br />
             </div>
             <p>Select your bookmark:</p>
@@ -42,7 +46,7 @@
 
         <a-divider />
 
-        <div v-if="playerShow" style="overflow-x: scroll">
+        <div v-if="playerShow">
             <MetadataInfoVideoList :text="'Video sources'" :data="videos"></MetadataInfoVideoList>
         </div>
 
