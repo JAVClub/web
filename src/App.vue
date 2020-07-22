@@ -55,6 +55,13 @@
                 <span>Profile</span>
                 <router-link :to="{ name: 'profile' }" />
             </a-menu-item>
+
+            <a-menu-item key="admin" v-if="isAdmin">
+                <a-icon type="solution" />
+                <span>Admin</span>
+                <router-link :to="{ name: 'admin' }" />
+            </a-menu-item>
+
             <a-menu-item key="logout" v-on:click="logout">
                 <a-icon type="logout" />
                 <span>Logout</span>
@@ -81,7 +88,8 @@
         data: function() {
             return {
                 collapsed: false,
-                isLogin: true
+                isLogin: false,
+                isAdmin: false
             };
         },
 
@@ -104,10 +112,11 @@
                 res = res.data
 
                 this.isLogin = res.data.isLogin
+                this.isAdmin = (this.isLogin) ? res.data.permission.rule.admin : false
                 if (!this.isLogin) {
+                    console.log(this.$route.name)
                     if (this.$route.name !== 'login') {
                         this.$router.push({ name: 'login' })
-                        window.location.reload()
                     }
                     return
                 }

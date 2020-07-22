@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>Stars</h1>
+        <div v-if="items.length === 0">
+            <a-empty />
+        </div>
         <waterfall :line-gap="130" :align="'center'" :watch="items">
             <waterfall-slot
             v-for="item in items"

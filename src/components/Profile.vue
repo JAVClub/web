@@ -10,7 +10,7 @@
             enterButton="Change"
             />
         </div>
-        <a-divider />
+        <a-divider dashed />
         <div class="inline">
             <p>Change your password</p>
             <a-input-search
@@ -20,11 +20,17 @@
             enterButton="Change"
             />
         </div>
+        <a-divider />
+        <ProfileInvitation></ProfileInvitation>
     </div>
 </template>
 
 <script>
+import ProfileInvitation from './ProfileInvitation'
 export default {
+    components: {
+        ProfileInvitation
+    },
     data: () => {
         return {
             newUsername: '',

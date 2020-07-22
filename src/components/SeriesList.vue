@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>Series</h1>
+        <div v-if="items.length === 0">
+            <a-empty />
+        </div>
         <waterfall :line-gap="320" :align="'center'" :watch="items">
             <waterfall-slot
             v-for="item in items"

@@ -21,6 +21,7 @@ import StarList from './components/StarList'
 import SeriesList from './components/SeriesList'
 import Profile from './components/Profile'
 import Login from './components/Login'
+import Admin from './components/Admin'
 
 axios.defaults.withCredentials = true
 
@@ -89,6 +90,10 @@ const routes = [
         name: 'profile',
         path: '/profile',
         component: Profile
+    },{
+        name: 'admin',
+        path: '/admin',
+        component: Admin
     },
     {
         name: 'login',

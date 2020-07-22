@@ -8,10 +8,13 @@
             <a-input-search placeholder="Search title/JAVID(split by space)" style="width: 300px" :defaultValue="searchStr" @search="onSearch" />
         </div>
         <div>
-            <div v-if="items.length === 0" class="loading">
+            <div v-if="loading" class="loading">
                 <a-spin />
             </div>
             <br v-else>
+            <div v-if="items.length === 0">
+                <a-empty />
+            </div>
             <waterfall :line-gap="370" :align="'center'" :watch="items">
                 <waterfall-slot
                     v-for="item in items"
@@ -55,7 +58,8 @@
                 routerParams: {
                     page: 1
                 },
-                paginationReload: true
+                paginationReload: true,
+                loading: false
             }
         },
 
@@ -109,6 +113,7 @@
             },
 
             requestNew: function() {
+                this.loading = true
                 if (this.routerParams.type) {
                     this.type = this.routerParams.type
                     this.metaId = this.routerParams.metaId
@@ -135,6 +140,7 @@
                     this.items = res.data.data
                     if (res.data.metaInfo) this.metaName = res.data.metaInfo.name
                     document.getElementsByTagName('h1')[0].scrollIntoView()
+                    this.loading = false
                 })
             }
         },
