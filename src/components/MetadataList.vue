@@ -15,12 +15,12 @@
             <div v-if="items.length === 0">
                 <a-empty />
             </div>
-            <waterfall :line-gap="370" :align="'center'" :watch="items">
+            <waterfall :line-gap="320" :align="'center'" :watch="items">
                 <waterfall-slot
                     v-for="item in items"
                     :key="item.id"
                     :height="435"
-                    :width="370"
+                    :width="300"
                 >
                     <MetadataListVideoCard 
                     :data="item"

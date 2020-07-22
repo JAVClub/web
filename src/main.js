@@ -22,6 +22,7 @@ import SeriesList from './components/SeriesList'
 import Profile from './components/Profile'
 import Login from './components/Login'
 import Admin from './components/Admin'
+import SignUp from './components/SignUp'
 
 axios.defaults.withCredentials = true
 
@@ -99,6 +100,12 @@ const routes = [
         name: 'login',
         path: '/login',
         component: Login
+    }
+    ,
+    {
+        name: 'signup',
+        path: '/signup',
+        component: SignUp
     }
 ]
 

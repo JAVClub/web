@@ -71,6 +71,12 @@
             <a-menu-item key="login">
                 <a-icon type="login" />
                 <span>Login</span>
+                <router-link :to="{ name: 'login' }" />
+            </a-menu-item>
+            <a-menu-item key="signup">
+                <a-icon type="user-add" />
+                <span>Sign Up</span>
+                <router-link :to="{ name: 'signup' }" />
             </a-menu-item>
         </template>
         </a-menu>
