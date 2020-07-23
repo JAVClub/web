@@ -73,7 +73,7 @@
     import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
     import VueDPlayer from 'vue-dplayer'
     import 'vue-dplayer/dist/vue-dplayer.css'
-    import _ from 'loadsh'
+    import _ from 'lodash'
     import vuePicturePreview from 'vue-picture-preview'
 
     export default {
