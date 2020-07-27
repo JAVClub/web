@@ -12,14 +12,14 @@
                 <a-spin />
             </div>
             <br v-else>
-            <div v-if="items.length === 0">
+            <div v-if="!loading && items.length === 0">
                 <a-empty />
             </div>
-            <waterfall :line-gap="320" :align="'center'" :watch="items">
+            <waterfall :line-gap="313" :align="'center'" :watch="items">
                 <waterfall-slot
                     v-for="item in items"
                     :key="item.id"
-                    :height="435"
+                    :height="405"
                     :width="300"
                 >
                     <MetadataListVideoCard 
@@ -91,7 +91,12 @@
             },
 
             onSearch: function(str) {
-                this.$router.push(`/metadata/list/1/search/${str}`)
+                if (str) {
+                    this.$router.push(`/metadata/list/1/search/${str}`)
+                    return
+                } else {
+                    this.$router.push(`/metadata/list/1`)
+                }
             },
 
             getApiUrl: function() {
