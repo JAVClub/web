@@ -6,8 +6,10 @@
             <a-input v-model="username" placeholder="Username" />
             <br /><br />
             <a-input v-model="password" type="password" placeholder="Password" @keyup.enter="handleSubmit" />
-            <br /><br />
-            <a-input v-model="code" placeholder="Invitation Code" />
+            <template v-if="!allowSignup">
+                <br /><br />
+                <a-input v-model="code" placeholder="Invitation Code" />
+            </template>
             <br /><br />
             <a-button v-on:click="handleSubmit" type="primary">Sign up</a-button>
         </div>
@@ -20,7 +22,8 @@
             return {
                 username: '',
                 password: '',
-                code: ''
+                code: '',
+                allowSignup: false
             }
         },
 
@@ -44,8 +47,13 @@
             }
         },
 
-        created: () => {
+        created: function () {
             document.title = 'Sign Up | JAVClub'
+            this.axios.get(this.apiHost + '/auth/getStatus').then((res) => {
+                res = res.data
+
+                this.allowSignup = res.data.allowSignup
+            })
         }
     }
 </script>
