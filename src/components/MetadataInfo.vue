@@ -15,7 +15,7 @@
                     :tags="tags"
                     :stars="stars"
                     :series="series"
-                    v-on:addToBookmark="addToBookmark"
+                    @addToBookmark="addToBookmark"
                     ></MetadataInfoVideoInfo>
                 </div>
             </a-col>
@@ -29,7 +29,7 @@
 
         <a-modal title="Add to bookmark" v-model="addToBookmarkModal" @ok="addToBookmark(true)">
             <div v-if="bookmarks.length === 0">
-                <a-alert type="error" message="You don't have a folder yet, please create one first." banner />
+                <a-alert type="error" message="You don't have a bookmark yet, please create one first." banner />
                 <br />
             </div>
             <p>Select your bookmark:</p>

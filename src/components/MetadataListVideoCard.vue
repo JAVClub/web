@@ -1,11 +1,8 @@
 <template>
     <a-card hoverable style="width: 300px">
-        <img
-            alt="cover"
-            class="cover"
-            :src="JAVinfo.posterFileURL"
-            slot="cover"
-            />
+        <div slot="cover">
+            <a :href="`/#/metadata/view/${JAVinfo.id}`"><img class="cover" alt="cover" :src="JAVinfo.posterFileURL" /></a>
+        </div>
         <a :href="`/#/metadata/view/${JAVinfo.id}`"><a-card-meta :title="`[${JAVinfo.JAVID}]` + JAVinfo.title" /></a>
         <br />
         <div class="tags">
